@@ -5,8 +5,12 @@
  */
 package web;
 
-import ejb.ContractBean;
+import ejb.*;
+import jpa.*;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebMethod;
@@ -24,35 +28,25 @@ import jpa.Contract;
 public class ContractWebService {
 
     @EJB
-    private ContractBean contractBean;
+    ContractBean contractBean;
+    
+    @EJB
+    private CustomerBean customerBean;
+    
+    @EJB
+    private CarBean carBean;
 
     @WebMethod
     @WebResult(name = "contract")
-    public List<Contract> findAll() {
-        return this.contractBean.findAll();
-    }
-
-    @WebMethod
-    @WebResult(name = "contract")
-    public Contract findById(@WebParam(name = "id") long id) {
-        return this.contractBean.findById(id);
-    }
-
-    @WebMethod
-    @WebResult(name = "contract")
-    public Contract saveNewMovie(@WebParam(name = "contract") Contract contract) {
+    public Contract saveNewContract(@WebParam(name = "StartDatum") Date startDate,  
+            @WebParam(name = "EndeDatum") Date dueDate, 
+            @WebParam(name = "CostumerId") Long costumerId,
+            @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException { 
+        
+        Customer costumer = customerBean.findById(costumerId);
+        Car car = carBean.findById(carId);
+        
+        Contract contract = new Contract(startDate, dueDate, costumer, car);
         return this.contractBean.saveNew(contract);
     }
-
-    @WebMethod
-    @WebResult(name = "contract")
-    public Contract updateExistingMovie(@WebParam(name = "contract") Contract contract) {
-        return this.contractBean.update(contract);
-    }
-
-    @WebMethod
-    public void deleteMovie(@WebParam(name = "contract") Contract contract) {
-        this.contractBean.delete(contract);
-    }
-
 }

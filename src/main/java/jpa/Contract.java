@@ -94,4 +94,9 @@ public class Contract implements Serializable {
         this.car = car;
     }
 //</editor-fold>
+    
+    
+    
+    
+   
 }
