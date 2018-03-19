@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import jpa.Contract;
 import jpa.Customer;
+import javax.ejb.EJB;
 
 /**
  *
@@ -24,6 +25,9 @@ public class ContractBean {
 
     @PersistenceContext
     EntityManager em;
+
+    @EJB
+    CustomerBean customerBean;
 
     public Contract saveNew(Contract contract) throws CarIsNotAvailableException {
         /*CriteriaBuilder cb = this.em.getCriteriaBuilder();
@@ -60,8 +64,18 @@ public class ContractBean {
         }
     }
 
-    public List<Contract> findContractsByCustomerId(long id) {
-        String select = "SELECT c FROM Contract c WHERE c.customerid = customerId";
-        return em.createQuery(select).setParameter("customerId", id).getResultList();
+    public List<Contract> findContractsByCustomerId(Long customerid) {
+
+        Customer customer = this.customerBean.findById(customerid);
+
+        CriteriaBuilder cb = this.em.getCriteriaBuilder();
+        CriteriaQuery<Contract> query = cb.createQuery(Contract.class);
+        Root<Contract> from = query.from(Contract.class);
+        query.select(from);
+        if (customer != null) {
+            query.where(cb.equal(from.get("customer"), customer));
+        }
+        return em.createQuery(query).getResultList();
+
     }
 }
