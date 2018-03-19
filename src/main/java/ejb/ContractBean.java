@@ -21,11 +21,11 @@ import jpa.Customer;
  */
 @Stateless
 public class ContractBean {
-    
+
     @PersistenceContext
     EntityManager em;
 
-    public Contract saveNew (Contract contract) throws CarIsNotAvailableException{
+    public Contract saveNew(Contract contract) throws CarIsNotAvailableException {
         /*CriteriaBuilder cb = this.em.getCriteriaBuilder();
         
         // SELECT t FROM Angebot t
@@ -36,23 +36,23 @@ public class ContractBean {
         query.where(cb.greaterThanOrEqualTo(from.<Date>get("startDate"), contract.getStartDate()));
         query.where(cb.lessThanOrEqualTo(from.<Date>get("dueDate"), contract.getDueDate()));
         query.where(cb.equal(from.get("car"), contract.getCar()));
-        */
-        
+         */
+
         Boolean isEmpty = em.createQuery("SELECT c FROM Contract c"
-                +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
-                +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
-                 .setParameter("thisStartDate", contract.getStartDate())
-                 .setParameter(":thisDueDate", contract.getDueDate())
-                 .getResultList().isEmpty();
-        
-        if (!isEmpty){
+                + " WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
+                + "      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
+                .setParameter("thisStartDate", contract.getStartDate())
+                .setParameter(":thisDueDate", contract.getDueDate())
+                .getResultList().isEmpty();
+
+        if (!isEmpty) {
             throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
         }
-        
+
         em.persist(contract);
         return em.merge(contract);
     }
-    
+
     public class CarIsNotAvailableException extends Exception {
 
         public CarIsNotAvailableException(String message) {
@@ -61,7 +61,8 @@ public class ContractBean {
     }
 
     public List<Contract> findAllByCustomer(Customer customer) {
-        
-        return null;
+        long customerId = customer.getId();
+        String select = "SELECT c FROM Contract c WHERE c.customerid = :customerId";
+        return em.createQuery(select).setParameter("customerId", customerId).getResultList();
     }
 }
