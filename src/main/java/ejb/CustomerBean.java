@@ -17,5 +17,4 @@ public class CustomerBean extends EntityBean<Customer, Long>{
     public CustomerBean() {
         super(Customer.class);
     }
-    
 }

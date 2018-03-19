@@ -5,17 +5,25 @@
  */
 package ejb;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import jpa.Contract;
-
+import jpa.Customer;
 
 /**
  *
  * @author Samuel
  */
 @Stateless
-public class ContractBean extends EntityBean<Contract, Long>{
+public class ContractBean extends EntityBean<Contract, Long> {
+
     public ContractBean() {
         super(Contract.class);
     }
+
+    public List<Contract> findAllByCustomer(Customer customer) {
+        
+        return null;
+    }
+
 }
