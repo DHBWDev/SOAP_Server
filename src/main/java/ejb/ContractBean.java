@@ -42,7 +42,7 @@ public class ContractBean {
                 +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
                 +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
                  .setParameter("thisStartDate", contract.getStartDate())
-                 .setParameter(":thisDueDate", contract.getDueDate())
+                 .setParameter("thisDueDate", contract.getDueDate())
                  .getResultList().isEmpty();
         
         if (!isEmpty){
