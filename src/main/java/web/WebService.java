@@ -8,6 +8,7 @@ package web;
 import ejb.CarBean;
 import ejb.ContractBean;
 import ejb.CustomerBean;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -63,5 +64,19 @@ public class WebService {
     @WebResult(name = "contract")
     public List<Contract> findAllByCustomer(Customer customer) {
         return this.contractBean.findAllByCustomer(customer);
+    }
+    
+    @WebMethod
+    @WebResult(name = "contract")
+    public Contract saveNewContract(@WebParam(name = "StartDatum") Date startDate,  
+            @WebParam(name = "EndeDatum") Date dueDate, 
+            @WebParam(name = "CostumerId") Long costumerId,
+            @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException { 
+        
+        Customer costumer = customerBean.findById(costumerId);
+        Car car = carBean.findById(carId);
+        
+        Contract contract = new Contract(startDate, dueDate, costumer, car);
+        return this.contractBean.saveNew(contract);
     }
 }
