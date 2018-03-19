@@ -60,7 +60,7 @@ public class WebService {
     //🖨 Auflisten aller Leihverträge eines Kunden 
     @WebMethod
     @WebResult(name = "contract")
-    public List<Contract> findContractsByCustomerId(long id) {
+    public List<Contract> findContractsByCustomerId(@WebParam(name = "id") long id) {
         return this.contractBean.findContractsByCustomerId(id);
     }
 
