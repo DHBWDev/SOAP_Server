@@ -40,18 +40,18 @@ public class CarWebService {
 
     @WebMethod
     @WebResult(name = "car")
-    public Car saveNewMovie(@WebParam(name = "car") Car car) {
+    public Car saveNewCar(@WebParam(name = "car") Car car) {
         return this.carBean.saveNew(car);
     }
 
     @WebMethod
     @WebResult(name = "car")
-    public Car updateExistingMovie(@WebParam(name = "car") Car car) {
+    public Car updateExistingCar(@WebParam(name = "car") Car car) {
         return this.carBean.update(car);
     }
 
     @WebMethod
-    public void deleteMovie(@WebParam(name = "car") Car car) {
+    public void deleteCar(@WebParam(name = "car") Car car) {
         this.carBean.delete(car);
     }
 
