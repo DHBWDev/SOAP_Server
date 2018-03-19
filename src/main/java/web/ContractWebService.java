@@ -40,18 +40,18 @@ public class ContractWebService {
 
     @WebMethod
     @WebResult(name = "contract")
-    public Contract saveNewMovie(@WebParam(name = "contract") Contract contract) {
+    public Contract saveNewContract(@WebParam(name = "contract") Contract contract) {
         return this.contractBean.saveNew(contract);
     }
 
     @WebMethod
     @WebResult(name = "contract")
-    public Contract updateExistingMovie(@WebParam(name = "contract") Contract contract) {
+    public Contract updateExistingContract(@WebParam(name = "contract") Contract contract) {
         return this.contractBean.update(contract);
     }
 
     @WebMethod
-    public void deleteMovie(@WebParam(name = "contract") Contract contract) {
+    public void deleteContract(@WebParam(name = "contract") Contract contract) {
         this.contractBean.delete(contract);
     }
 

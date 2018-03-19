@@ -40,18 +40,18 @@ public class CustomerWebService {
 
     @WebMethod
     @WebResult(name = "customer")
-    public Customer saveNewMovie(@WebParam(name = "customer") Customer customer) {
+    public Customer saveNewCustomer(@WebParam(name = "customer") Customer customer) {
         return this.customerBean.saveNew(customer);
     }
 
     @WebMethod
     @WebResult(name = "customer")
-    public Customer updateExistingMovie(@WebParam(name = "customer") Customer customer) {
+    public Customer updateExistingCustomer(@WebParam(name = "customer") Customer customer) {
         return this.customerBean.update(customer);
     }
 
     @WebMethod
-    public void deleteMovie(@WebParam(name = "customer") Customer customer) {
+    public void deleteCustomer(@WebParam(name = "customer") Customer customer) {
         this.customerBean.delete(customer);
     }
 }
