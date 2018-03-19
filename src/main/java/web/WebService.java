@@ -50,32 +50,30 @@ public class WebService {
 
     //📄 Ausleihen eines Fahrzeugs
     //Fehlt noch
-    
-    
     //🏎 Auflisten aller vorhandenen Fahrzeuge
     @WebMethod
     @WebResult(name = "car")
-    public List<Car> findAll() {
+    public List<Car> findAllCars() {
         return this.carBean.findAll();
     }
 
     //🖨 Auflisten aller Leihverträge eines Kunden 
     @WebMethod
     @WebResult(name = "contract")
-    public List<Contract> findAllByCustomer(Customer customer) {
-        return this.contractBean.findAllByCustomer(customer);
+    public List<Contract> findContractsByCustomerId(long id) {
+        return this.contractBean.findContractsByCustomerId(id);
     }
-    
+
     @WebMethod
     @WebResult(name = "contract")
-    public Contract saveNewContract(@WebParam(name = "StartDatum") Date startDate,  
-            @WebParam(name = "EndeDatum") Date dueDate, 
+    public Contract saveNewContract(@WebParam(name = "StartDatum") Date startDate,
+            @WebParam(name = "EndeDatum") Date dueDate,
             @WebParam(name = "CostumerId") Long costumerId,
-            @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException { 
-        
+            @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException {
+
         Customer costumer = customerBean.findById(costumerId);
         Car car = carBean.findById(carId);
-        
+
         Contract contract = new Contract(startDate, dueDate, costumer, car);
         return this.contractBean.saveNew(contract);
     }

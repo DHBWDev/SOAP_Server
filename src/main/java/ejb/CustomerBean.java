@@ -13,7 +13,8 @@ import jpa.Customer;
  * @author Samuel
  */
 @Stateless
-public class CustomerBean extends EntityBean<Customer, Long>{
+public class CustomerBean extends EntityBean<Customer, Long> {
+
     public CustomerBean() {
         super(Customer.class);
     }
