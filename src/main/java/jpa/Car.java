@@ -25,15 +25,15 @@ public class Car implements Serializable{
     @TableGenerator(name = "car_ids", initialValue = 0, allocationSize = 1)
     private long id;
     
-    @NotNull(message = "Der Hersteller darf nicht leer sein.")
+    //@NotNull(message = "Der Hersteller darf nicht leer sein.")
     @Column(length = 50)
     private String producer = "";
     
-    @NotNull(message = "Das Modell darf nicht leer sein.")
+    //@NotNull(message = "Das Modell darf nicht leer sein.")
     @Column(length = 50)
     private String model = "";
     
-    @NotNull(message = "Das Baujahr darf nicht leer sein.")
+    //@NotNull(message = "Das Baujahr darf nicht leer sein.")
     private Integer construtionYear = 0;
     
     

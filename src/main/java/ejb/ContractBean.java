@@ -37,17 +37,22 @@ public class ContractBean {
         query.where(cb.lessThanOrEqualTo(from.<Date>get("dueDate"), contract.getDueDate()));
         query.where(cb.equal(from.get("car"), contract.getCar()));
          */
-
-        Boolean isEmpty = em.createQuery("SELECT c FROM Contract c"
+                
+        em.createQuery("SELECT c FROM Contract c"
                 +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
                 +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
                  .setParameter("thisStartDate", contract.getStartDate())
                  .setParameter("thisDueDate", contract.getDueDate())
                  .getResultList().isEmpty();
-        
-        if (!isEmpty){
-            throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
-        }
+                
+        /*if (!em.createQuery("SELECT c FROM Contract c"
+        +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
+        +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
+        .setParameter("thisStartDate", contract.getStartDate())
+        .setParameter("thisDueDate", contract.getDueDate())
+        .getResultList().isEmpty()){
+        throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
+        }*/
 
         em.persist(contract);
         return em.merge(contract);

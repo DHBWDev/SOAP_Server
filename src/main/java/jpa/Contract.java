@@ -27,11 +27,11 @@ public class Contract implements Serializable {
     @TableGenerator(name = "contract_ids", initialValue = 0, allocationSize = 1)
     private long id;
     
-    @NotNull(message = "Das Beginndatum darf nicht leer sein.")
+    //@NotNull(message = "Das Beginndatum darf nicht leer sein.")
     @Temporal(TemporalType.DATE)
     private Date startDate = new Date();
     
-    @NotNull(message = "Das Enddatum darf nicht leer sein.")
+    //@NotNull(message = "Das Enddatum darf nicht leer sein.")
     @Temporal(TemporalType.DATE)
     private Date dueDate = new Date();
     
