@@ -61,7 +61,7 @@ public class ContractBean {
     }
 
     public List<Contract> findContractsByCustomerId(long id) {
-        String select = "SELECT c FROM Contract c WHERE c.customerid = :customerId";
+        String select = "SELECT c FROM Contract c WHERE c.customerid = customerId";
         return em.createQuery(select).setParameter("customerId", id).getResultList();
     }
 }
