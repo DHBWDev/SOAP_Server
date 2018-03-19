@@ -5,6 +5,7 @@
  */
 package jpa;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
  * @author Fabio Kraemer
  */
 @Entity
-public class Customer {
+public class Customer implements Serializable{
     @Id
     @GeneratedValue(generator = "customer_ids")
     @TableGenerator(name = "customer_ids", initialValue = 0, allocationSize = 1)
