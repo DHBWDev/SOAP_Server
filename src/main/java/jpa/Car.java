@@ -5,6 +5,7 @@
  */
 package jpa;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
-public class Car {
+public class Car implements Serializable{
     @Id
     @GeneratedValue(generator = "car_ids")
     @TableGenerator(name = "car_ids", initialValue = 0, allocationSize = 1)
@@ -33,17 +34,17 @@ public class Car {
     private String model = "";
     
     @NotNull(message = "Das Baujahr darf nicht leer sein.")
-    private Integer year = 0;
+    private Integer construtionYear = 0;
     
     
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Car() {
     }
     
-    public Car (String producer, String model, Integer year){
+    public Car (String producer, String model, Integer construtionYear){
         this.producer = producer;
         this.model = model;
-        this.year = year;
+        this.construtionYear = construtionYear;
     }
     //</editor-fold>
 
@@ -72,12 +73,12 @@ public class Car {
         this.model = model;
     }
     
-    public Integer getYear() {
-        return year;
+    public Integer getconstrutionYear() {
+        return construtionYear;
     }
     
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setconstrutionYear(Integer construtionYear) {
+        this.construtionYear = construtionYear;
     }
 //</editor-fold> 
 }
