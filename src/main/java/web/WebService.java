@@ -72,6 +72,7 @@ public class WebService {
             @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException {
 
         Customer costumer = customerBean.findById(costumerId);
+ 
         Car car = carBean.findById(carId);
 
         Contract contract = new Contract(startDate, dueDate, costumer, car);

@@ -30,30 +30,14 @@ public class ContractBean {
     CustomerBean customerBean;
 
     public Contract saveNew(Contract contract) throws CarIsNotAvailableException {
-        /*CriteriaBuilder cb = this.em.getCriteriaBuilder();
-        
-        // SELECT t FROM Angebot t
-        CriteriaQuery<Contract> query = cb.createQuery(Contract.class);
-        Root<Contract> from = query.from(Contract.class);
-        query.select(from);
-        
-        query.where(cb.greaterThanOrEqualTo(from.<Date>get("startDate"), contract.getStartDate()));
-        query.where(cb.lessThanOrEqualTo(from.<Date>get("dueDate"), contract.getDueDate()));
-        query.where(cb.equal(from.get("car"), contract.getCar()));
-         */
-                
-        /* em.createQuery("SELECT c FROM Contract c"
-        +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
-        +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
-        .setParameter("thisStartDate", contract.getStartDate())
-        .setParameter("thisDueDate", contract.getDueDate())
-        .getResultList().isEmpty();*/
-                
+        //Überprüfen ob es bereits einen Leihvertrag für das Auto und den Zeitraum gibt
         if (!em.createQuery("SELECT c FROM Contract c"
-        +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
-        +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
+        +" WHERE c.car = :car"
+        + " AND ((c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
+        +"        OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate))")
         .setParameter("thisStartDate", contract.getStartDate())
         .setParameter("thisDueDate", contract.getDueDate())
+        .setParameter("car", contract.getCar())
         .getResultList().isEmpty()){
             throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
         }
