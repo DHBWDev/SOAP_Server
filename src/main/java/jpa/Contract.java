@@ -36,7 +36,8 @@ public class Contract implements Serializable {
     private Date dueDate = new Date();
     
     @ManyToOne
-    Customer customer = new Customer();
+    //Customer customer = new Customer();
+    private Customer customer;
     
     @ManyToOne 
     Car car = new Car();
