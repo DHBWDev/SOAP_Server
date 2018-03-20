@@ -38,21 +38,21 @@ public class ContractBean {
         query.where(cb.equal(from.get("car"), contract.getCar()));
          */
                 
-        em.createQuery("SELECT c FROM Contract c"
-                +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
-                +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
-                 .setParameter("thisStartDate", contract.getStartDate())
-                 .setParameter("thisDueDate", contract.getDueDate())
-                 .getResultList().isEmpty();
+        /* em.createQuery("SELECT c FROM Contract c"
+        +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
+        +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
+        .setParameter("thisStartDate", contract.getStartDate())
+        .setParameter("thisDueDate", contract.getDueDate())
+        .getResultList().isEmpty();*/
                 
-        /*if (!em.createQuery("SELECT c FROM Contract c"
+        if (!em.createQuery("SELECT c FROM Contract c"
         +" WHERE (c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
         +"      OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate)")
         .setParameter("thisStartDate", contract.getStartDate())
         .setParameter("thisDueDate", contract.getDueDate())
         .getResultList().isEmpty()){
-        throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
-        }*/
+            throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
+        }
 
         em.persist(contract);
         return em.merge(contract);
