@@ -60,3 +60,6 @@ public abstract class EntityBean<Entity, EntityId> {
         em.remove(entity);
     }
 }
+
+
+        

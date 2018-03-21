@@ -69,12 +69,18 @@ public class WebService {
     public Contract saveNewContract(@WebParam(name = "StartDatum") Date startDate,
             @WebParam(name = "EndeDatum") Date dueDate,
             @WebParam(name = "CostumerId") Long costumerId,
-            @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException {
-
+            @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException, CarNotFoundException, CostumerNotFoundException {
+        
         Customer costumer = customerBean.findById(costumerId);
- 
+        if(costumer == null){
+            throw new CostumerNotFoundException("Der Kunde mit der ID "+Long.toString(costumerId)+" konnte nicht ermittelt werden.");
+        }
+        
         Car car = carBean.findById(carId);
-
+        if(car == null){
+            throw new CarNotFoundException("Das Auto mit der ID "+Long.toString(carId)+" konnte nicht ermittelt werden.");
+        }
+        
         Contract contract = new Contract(startDate, dueDate, costumer, car);
         return this.contractBean.saveNew(contract);
     }

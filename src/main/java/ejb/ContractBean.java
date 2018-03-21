@@ -21,15 +21,19 @@ import javax.ejb.EJB;
  * @author Samuel
  */
 @Stateless
-public class ContractBean {
+public class ContractBean extends EntityBean<Contract, Long> {
 
     @PersistenceContext
     EntityManager em;
 
     @EJB
     CustomerBean customerBean;
-
-    public Contract saveNew(Contract contract) throws CarIsNotAvailableException {
+    
+     public ContractBean() {
+        super(Contract.class);
+    }
+    
+    public Contract saveNewContract(Contract contract) throws CarIsNotAvailableException {
         //Überprüfen ob es bereits einen Leihvertrag für das Auto und den Zeitraum gibt
         if (!em.createQuery("SELECT c FROM Contract c"
         +" WHERE c.car = :car"
@@ -41,17 +45,17 @@ public class ContractBean {
         .getResultList().isEmpty()){
             throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
         }
-
-        em.persist(contract);
-        return em.merge(contract);
+        
+        return saveNew(contract);
     }
-
+    
     public class CarIsNotAvailableException extends Exception {
 
         public CarIsNotAvailableException(String message) {
             super(message);
         }
     }
+    
 
     public List<Contract> findContractsByCustomerId(Long customerid) {
 
