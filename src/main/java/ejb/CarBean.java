@@ -7,6 +7,7 @@ package ejb;
 
 import javax.ejb.Stateless;
 import jpa.Car;
+import jpa.Contract;
 
 /**
  *
@@ -18,5 +19,5 @@ public class CarBean extends EntityBean<Car, Long> {
     public CarBean() {
         super(Car.class);
     }
-
 }
+
