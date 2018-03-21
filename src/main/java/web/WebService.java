@@ -85,12 +85,17 @@ public class WebService {
         return this.contractBean.saveNew(contract);
     }
     
-    @WebMethod
-    @WebResult(name = "contract")
-    public Contract sNewContract(@WebParam(name = "contract") Contract contract) throws ContractBean.CarIsNotAvailableException {
+    public class CarNotFoundException extends Exception {
 
-        
-        return this.contractBean.saveNew(contract);
+        public CarNotFoundException(String message) {
+            super(message);
+        }
     }
     
+     public class CostumerNotFoundException extends Exception {
+
+        public CostumerNotFoundException(String message) {
+            super(message);
+        }
+    }
 }
