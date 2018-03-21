@@ -78,4 +78,13 @@ public class WebService {
         Contract contract = new Contract(startDate, dueDate, costumer, car);
         return this.contractBean.saveNew(contract);
     }
+    
+    @WebMethod
+    @WebResult(name = "contract")
+    public Contract sNewContract(@WebParam(name = "contract") Contract contract) throws ContractBean.CarIsNotAvailableException {
+
+        
+        return this.contractBean.saveNew(contract);
+    }
+    
 }
