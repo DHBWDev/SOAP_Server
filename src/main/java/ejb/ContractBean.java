@@ -28,34 +28,33 @@ public class ContractBean extends EntityBean<Contract, Long> {
 
     @EJB
     CustomerBean customerBean;
-    
-     public ContractBean() {
+
+    public ContractBean() {
         super(Contract.class);
     }
-    
+
     public Contract saveNewContract(Contract contract) throws CarIsNotAvailableException {
         //Überprüfen ob es bereits einen Leihvertrag für das Auto und den Zeitraum gibt
         if (!em.createQuery("SELECT c FROM Contract c"
-        +" WHERE c.car = :car"
-        + " AND ((c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
-        +"        OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate))")
-        .setParameter("thisStartDate", contract.getStartDate())
-        .setParameter("thisDueDate", contract.getDueDate())
-        .setParameter("car", contract.getCar())
-        .getResultList().isEmpty()){
+                + " WHERE c.car = :car"
+                + " AND ((c.startDate <= :thisStartDate AND c.dueDate >= :thisStartDate)"
+                + "        OR (c.startDate >= :thisStartDate AND c.startDate <= :thisDueDate))")
+                .setParameter("thisStartDate", contract.getStartDate())
+                .setParameter("thisDueDate", contract.getDueDate())
+                .setParameter("car", contract.getCar())
+                .getResultList().isEmpty()) {
             throw new CarIsNotAvailableException("Es gibt Überschneidungen mit einem bereits bestehenden Leihvetrag");
         }
-        
+
         return saveNew(contract);
     }
-    
+
     public class CarIsNotAvailableException extends Exception {
 
         public CarIsNotAvailableException(String message) {
             super(message);
         }
     }
-    
 
     public List<Contract> findContractsByCustomerId(Long customerid) {
 

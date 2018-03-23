@@ -48,8 +48,6 @@ public class WebService {
         return this.carBean.saveNew(car);
     }
 
-    //📄 Ausleihen eines Fahrzeugs
-    //Fehlt noch
     //🏎 Auflisten aller vorhandenen Fahrzeuge
     @WebMethod
     @WebResult(name = "car")
@@ -60,39 +58,44 @@ public class WebService {
     //🖨 Auflisten aller Leihverträge eines Kunden 
     @WebMethod
     @WebResult(name = "contract")
-    public List<Contract> findContractsByCustomerId(@WebParam(name = "id") long id) {
+    public List<Contract> findContractsByCustomerId(@WebParam(name = "id") long id) throws CostumerNotFoundException {
+        Customer costumer = customerBean.findById(id);
+        if (costumer == null) {
+            throw new CostumerNotFoundException("Der Kunde mit der ID " + Long.toString(id) + " konnte nicht ermittelt werden.");
+        }
         return this.contractBean.findContractsByCustomerId(id);
     }
 
+    //📄 Ausleihen eines Fahrzeugs
     @WebMethod
     @WebResult(name = "contract")
     public Contract saveNewContract(@WebParam(name = "StartDatum") Date startDate,
             @WebParam(name = "EndeDatum") Date dueDate,
             @WebParam(name = "CostumerId") Long costumerId,
             @WebParam(name = "CarId") Long carId) throws ContractBean.CarIsNotAvailableException, CarNotFoundException, CostumerNotFoundException {
-        
+
         Customer costumer = customerBean.findById(costumerId);
-        if(costumer == null){
-            throw new CostumerNotFoundException("Der Kunde mit der ID "+Long.toString(costumerId)+" konnte nicht ermittelt werden.");
+        if (costumer == null) {
+            throw new CostumerNotFoundException("Der Kunde mit der ID " + Long.toString(costumerId) + " konnte nicht ermittelt werden.");
         }
-        
+
         Car car = carBean.findById(carId);
-        if(car == null){
-            throw new CarNotFoundException("Das Auto mit der ID "+Long.toString(carId)+" konnte nicht ermittelt werden.");
+        if (car == null) {
+            throw new CarNotFoundException("Das Auto mit der ID " + Long.toString(carId) + " konnte nicht ermittelt werden.");
         }
-        
+
         Contract contract = new Contract(startDate, dueDate, costumer, car);
-        return this.contractBean.saveNew(contract);
+        return this.contractBean.saveNewContract(contract);
     }
-    
+
     public class CarNotFoundException extends Exception {
 
         public CarNotFoundException(String message) {
             super(message);
         }
     }
-    
-     public class CostumerNotFoundException extends Exception {
+
+    public class CostumerNotFoundException extends Exception {
 
         public CostumerNotFoundException(String message) {
             super(message);

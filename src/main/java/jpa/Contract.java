@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -22,31 +21,32 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 public class Contract implements Serializable {
+
     @Id
     @GeneratedValue(generator = "contract_ids")
     @TableGenerator(name = "contract_ids", initialValue = 0, allocationSize = 1)
     private long id;
-    
+
     //@NotNull(message = "Das Beginndatum darf nicht leer sein.")
     @Temporal(TemporalType.DATE)
     private Date startDate = new Date();
-    
+
     //@NotNull(message = "Das Enddatum darf nicht leer sein.")
     @Temporal(TemporalType.DATE)
     private Date dueDate = new Date();
-    
+
     @ManyToOne
     //Customer customer = new Customer();
     private Customer customer;
-    
-    @ManyToOne 
+
+    @ManyToOne
     Car car = new Car();
-    
+
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
-    public Contract (){
+    public Contract() {
     }
-    
-    public Contract (Date startDate, Date dueDate, Customer customer, Car car) {
+
+    public Contract(Date startDate, Date dueDate, Customer customer, Car car) {
         this.startDate = startDate;
         this.dueDate = dueDate;
         this.customer = customer;
@@ -58,46 +58,42 @@ public class Contract implements Serializable {
     public long getId() {
         return id;
     }
-    
+
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public Date getStartDate() {
         return startDate;
     }
-    
+
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-    
+
     public Date getDueDate() {
         return dueDate;
     }
-    
+
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-    
+
     public Customer getCustomer() {
         return customer;
     }
-    
+
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    
+
     public Car getCar() {
         return car;
     }
-    
+
     public void setCar(Car car) {
         this.car = car;
     }
 //</editor-fold>
-    
-    
-    
-    
-   
+
 }
